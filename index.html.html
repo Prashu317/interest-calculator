@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interest Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .calculator {
+      background-color: #22a144;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+    .calculator h2 {
+      margin-bottom: 20px;
+    }
+    .calculator input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .calculator button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .calculator button:hover {
+      background-color: #218838;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Interest Calculator</h2>
+    <input type="number" id="principal" placeholder="Principal Amount" required>
+    <input type="number" id="rate" placeholder="Annual Interest Rate (%)" required>
+    <input type="number" id="time" placeholder="Time Period (Years)" required>
+    <select id="type">
+      <option value="simple">Simple Interest</option>
+      <option value="compound">Compound Interest</option>
+    </select>
+    <input type="number" id="compounds" placeholder="Compounds Per Year (Optional)" style="display: none;">
+    <button onclick="calculateInterest()">Calculate</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    // Show/hide compounds input based on interest type
+    document.getElementById('type').addEventListener('change', function() {
+      const compoundsInput = document.getElementById('compounds');
+      if (this.value === 'compound') {
+        compoundsInput.style.display = 'block';
+      } else {
+        compoundsInput.style.display = 'none';
+      }
+    });
+
+    // Calculate interest
+    function calculateInterest() {
+      const principal = parseFloat(document.getElementById('principal').value);
+      const rate = parseFloat(document.getElementById('rate').value);
+      const time = parseFloat(document.getElementById('time').value);
+      const type = document.getElementById('type').value;
+      const compounds = parseFloat(document.getElementById('compounds').value) || 1;
+
+      let interest, totalAmount;
+
+      if (type === 'simple') {
+        interest = (principal * rate * time) / 100;
+        totalAmount = principal + interest;
+      } else if (type === 'compound') {
+        totalAmount = principal * Math.pow(1 + (rate / (compounds * 100)), compounds * time);
+        interest = totalAmount - principal;
+      }
+
+      document.getElementById('result').innerHTML = `
+        <p>Interest: ${interest.toFixed(2)}</p>
+        <p>Total Amount: ${totalAmount.toFixed(2)}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
