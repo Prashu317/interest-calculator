@@ -113,21 +113,18 @@
         </thead>
         <tbody id="expenseTable"></tbody>
     </table>
-
-    <div class="charts">
+     <div class="charts">
         <canvas id="pieChart"></canvas>
         <canvas id="barChart"></canvas>
     </div>
 </div>
-
 <script>
     let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
-
+   
     function addExpense() {
         let date = document.getElementById("expenseDate").value;
         let category = document.getElementById("expenseCategory").value;
         let amount = parseFloat(document.getElementById("expenseAmount").value);
-
         if (date && category && amount) {
             expenses.push({ date, category, amount });
             localStorage.setItem("expenses", JSON.stringify(expenses));
